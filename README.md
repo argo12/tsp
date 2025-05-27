@@ -34,15 +34,21 @@ R Implementation:
 
 **Example (Python):**
 
-    from tsp import TSP
-    # Define distances as a 2D list or numpy array
-    distances = [
-        [0, 141, 118, ...],  # fill in actual distances
-        [141, 0, ...],
-        ...
-    ]
-    tsp = TSP(len(distances), distances)
-    tsp.find_solution()
+      from tsp import TSP
+      # Define the distance matrix between cities (0 means same city)
+      distances = [
+          [0, 29, 20, 21],
+          [29, 0, 15, 17],
+          [20, 15, 0, 28],
+          [21, 17, 28, 0]
+      ]
+      
+      # Create a TSP solver instance
+      tsp = TSP(size=4, costs=distances)
+      
+      # Find and print the optimal tour and its length
+      tsp.find_solution()
+      
     
 ### R Version
 

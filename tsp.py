@@ -3,6 +3,7 @@ import math
 import time
 import copy
 import numpy as np
+import itertools
 
 
 class TSP(object):
@@ -268,9 +269,6 @@ def brute_force(n,distances):
     Prints:
         The shortest tour and its length.
     """
-
-    import itertools
-    import math
     minLength = math.inf
     minTour = []
     for tour in itertools.permutations(list(range(1, n))):

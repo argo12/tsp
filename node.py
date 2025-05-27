@@ -4,8 +4,31 @@ import numpy as np
 
 
 class Node(object):
+    """
+    Represents a node in the branch-and-bound search tree for solving the Traveling Salesman Problem (TSP).
+
+    Attributes:
+        size (int): Number of nodes (cities).
+        costs (list): Cost matrix representing distances between nodes.
+        sortedEdges (list): List of sorted edge indices for each node by increasing cost.
+        allSortedEdges (list): List of all sorted edge indices.
+        extra_constr (tuple or None): Additional constraint to apply to this node.
+        constraints (list): Constraint matrix for the current node.
+        lowerBound (float): Lower bound of the cost for the node's partial solution.
+    """
 
     def __init__(self, size, costs, sortedEdges, allSortedEdges, parent_constr, extra_constr=None):
+        """
+        Initializes a new Node instance.
+
+        Args:
+            size (int): Number of nodes (cities).
+            costs (list): Cost matrix representing distances between nodes.
+            sortedEdges (list): List of sorted edge indices for each node.
+            allSortedEdges (list): List of all sorted edge indices.
+            parent_constr (list): Constraints matrix from the parent node.
+            extra_constr (tuple, optional): Additional constraint for this node.
+        """
         self.size = size
         self.costs = costs
         self.sortedEdges = sortedEdges
@@ -15,6 +38,12 @@ class Node(object):
         self.lowerBound = self.computeLowerBound()
 
     def computeLowerBound(self):
+        """
+        Computes a lower bound on the cost of a tour from this node.
+
+        Returns:
+            float: The computed lower bound.
+        """
         lb = 0
         for i in range(self.size):
             lower = 0
@@ -37,12 +66,14 @@ class Node(object):
         return lb
 
     def determine_constr(self, parent_constr):
-        """ This method determines the constrainsts of a node
-        based on the constraints of the parent and the
-        extra constraint for this node
+         """
+        Determines the constraints of the current node based on the parent's constraints and any extra constraint.
 
-        :param parent_constr:
-        :return:
+        Args:
+            parent_constr (list): The constraint matrix of the parent node.
+
+        Returns:
+            list: The updated constraint matrix.
         """
         constraints = copy.deepcopy(parent_constr)
         if self.extra_constr == None:
@@ -59,6 +90,15 @@ class Node(object):
         return constraints
 
     def removeEdges(self, constraints):
+        """
+        Removes invalid edges from the constraints to enforce feasible TSP solutions.
+
+        Args:
+            constraints (list): The current constraint matrix.
+
+        Returns:
+            list: The constraint matrix with invalid edges removed.
+        """
         for i in range(self.size):
             t = 0
             for j in range(self.size):
@@ -96,7 +136,15 @@ class Node(object):
             return constraints
 
     def addEdges(self, constraints):
+        """
+        Adds required edges to the constraints to enforce feasible TSP solutions.
 
+        Args:
+            constraints (list): The current constraint matrix.
+
+        Returns:
+            list: The constraint matrix with required edges added.
+        """
         for i in range(self.size):
             t = 0
             for j in range(self.size):
@@ -111,12 +159,29 @@ class Node(object):
         return constraints
 
     def next_one(self, prev, fr, constraints):
+        """
+        Finds the next node connected to 'fr' that is not 'prev' using the current constraints.
+
+        Args:
+            prev (int): The previous node.
+            fr (int): The current node.
+            constraints (list): The constraint matrix.
+
+        Returns:
+            list: [True, next_node] if a next node exists, otherwise [False].
+        """
         for j in range(self.size):
             if constraints[fr][j] == 1 and j != prev:
                 return [True, j]
         return [False]
 
     def isTour(self):
+        """
+        Checks if the current constraints represent a valid TSP tour.
+
+        Returns:
+            bool: True if the constraints represent a tour, False otherwise.
+        """
         for i in range(self.size):
             num_zero = 0
             num_one = 0
@@ -131,6 +196,13 @@ class Node(object):
         return True
 
     def contains_subtour(self):
+        """
+        Checks if the current constraints contain a subtour (a cycle smaller than the full tour).
+
+        Returns:
+            bool: True if a subtour exists, False otherwise.
+        """
+        
         t = 0
         fr = 0
 
@@ -154,6 +226,12 @@ class Node(object):
         return False
 
     def tourLength(self):
+        """
+        Calculates the total length of the tour represented by the current constraints.
+
+        Returns:
+            float: The total tour length.
+        """
         length = 0
         fr = 0
         to = self.next_one(fr, fr, self.constraints)[1]
@@ -166,12 +244,25 @@ class Node(object):
         return length
 
     def next_constraint(self):
+        """
+        Finds the next constraint that is undecided (marked as 2).
+
+        Returns:
+            list: The indices [i, j] of the next undecided constraint, or None if all are decided.
+        """
         for i in range(self.size):
             for j in range(self.size):
                 if self.constraints[i][j] == 2:
                     return [i, j]
 
     def __str__(self):
+        """
+        Returns a string representation of the tour if the constraints form a valid tour.
+
+        Returns:
+            str: String representation of the tour or a message indicating it is not a tour.
+        """
+        
         if self.isTour():
             result = '0'
             fr = 0

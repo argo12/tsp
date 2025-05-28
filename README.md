@@ -54,12 +54,6 @@ R Implementation:
 
 The R code appears to be an early-stage prototype and may require adaptation for practical use.
 
-### Motivation
-
-This repository was created to explore and experiment with different approaches to the TSP, particularly focusing on constraint propagation and lower bound calculation to prune the search space efficiently.
-If you are revisiting this project, reviewing tsp.py and node.py is a good starting point to understand the core logic.
-
-
 ### References
 
     Traveling Salesman Problem - Wikipedia

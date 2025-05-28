@@ -1,6 +1,6 @@
+# node.py
 import math
 import copy
-
 
 class Node:
     def __init__(self, size, costs, sorted_edges, all_sorted_edges, parent_constraints, extra_constraint=None):

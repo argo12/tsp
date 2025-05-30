@@ -236,16 +236,17 @@ def brute_force(n, distances):
     return min_length
 
 
-# Example usage:
-costs = [
-    [0, 29, 20, 21],
-    [29, 0, 15, 17],
-    [20, 15, 0, 28],
-    [21, 17, 28, 0]
-]
+if __name__ == "__main__":
+    # Example usage:
+    costs = [
+        [0, 29, 20, 21],
+        [29, 0, 15, 17],
+        [20, 15, 0, 28],
+        [21, 17, 28, 0]
+    ]
 
-size = len(costs)
-initial_best = brute_force(size, costs)
-print("\nRunning Branch and Bound:")
-tsp = TSP(size, costs, best_tour=initial_best)
-tsp.find_solution()
+    size = len(costs)
+    initial_best = brute_force(size, costs)
+    print("\nRunning Branch and Bound:")
+    tsp = TSP(size, costs, best_tour=initial_best)
+    tsp.find_solution()

@@ -17,7 +17,6 @@ R Implementation:
 
 
     .
-    ├── node.py         # Node class for state representation and constraint logic
     ├── tsp.py          # Main TSP solver logic (branch-and-bound, brute force)
     ├── tsp.R           # R prototype/port (not fully functional)
 
